@@ -29,7 +29,7 @@
             // ===== BACKEND BUILD =====
             stage('Build Backend') {
                 steps {
-                    dir('ApartmentsSpringboot') {
+                    dir('AparatmentsSpringboot') {
                         bat 'mvn clean package'
                     }
                 }
@@ -39,13 +39,13 @@
             stage('Deploy Backend to Tomcat') {
                 steps {
                     bat '''
-                    if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\ApartmentsSpringboot.war" (
-                        del /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\ApartmentsSpringboot.war"
+                    if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\AparatmentsSpringboot.war" (
+                        del /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\AparatmentsSpringboot.war"
                     )
-                    if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\ApartmentsSpringboot" (
-                        rmdir /S /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\ApartmentsSpringboot"
+                    if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\AparatmentsSpringboot" (
+                        rmdir /S /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\AparatmentsSpringboot"
                     )
-                    copy "ApartmentsSpringboot\\target\\*.war" "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\"
+                    copy "AparatmentsSpringboot\\target\\*.war" "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\"
                     '''
                 }
             }

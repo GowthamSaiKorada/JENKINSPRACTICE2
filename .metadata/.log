@@ -572,3 +572,6 @@ Caused by: org.codehaus.plexus.util.xml.pull.XmlPullParserException: start tag u
 
 !ENTRY org.springframework.tooling.boot.ls 1 0 2025-10-23 11:42:40.148
 !MESSAGE Boot project ADDED: AparatmentsSpringboot
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-10-23 11:47:58.107
+!MESSAGE Classpath changed for project: AparatmentsSpringboot

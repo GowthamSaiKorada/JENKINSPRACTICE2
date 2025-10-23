@@ -1,0 +1,64 @@
+    pipeline {
+        agent any
+
+        stages {
+
+            // ===== FRONTEND BUILD =====
+            stage('Build Frontend') {
+                steps {
+                    dir('ApartmentFrontend') {
+                        bat 'npm install'
+                        bat 'npm run build'
+                    }
+                }
+            }
+
+            // ===== FRONTEND DEPLOY =====
+            stage('Deploy Frontend to Tomcat') {
+                steps {
+                    bat '''
+                    if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\reactapartmentapi" (
+                        rmdir /S /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\reactapartmentapi"
+                    )
+                    mkdir "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\reactapartmentapi"
+                    xcopy /E /I /Y ApartmentFrontend\\dist\\* "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\reactapartmentapi"
+                    '''
+                }
+            }
+
+            // ===== BACKEND BUILD =====
+            stage('Build Backend') {
+                steps {
+                    dir('ApartmentsSpringboot') {
+                        bat 'mvn clean package'
+                    }
+                }
+            }
+
+            // ===== BACKEND DEPLOY =====
+            stage('Deploy Backend to Tomcat') {
+                steps {
+                    bat '''
+                    if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\ApartmentsSpringboot.war" (
+                        del /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\ApartmentsSpringboot.war"
+                    )
+                    if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\ApartmentsSpringboot" (
+                        rmdir /S /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\ApartmentsSpringboot"
+                    )
+                    copy "ApartmentsSpringboot\\target\\*.war" "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\"
+                    '''
+                }
+            }
+
+        }
+
+
+        post {
+            success {
+                echo 'Deployment Successful!'
+            }
+            failure {
+                echo 'Pipeline Failed.'
+            }
+        }
+    }
